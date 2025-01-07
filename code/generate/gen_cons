@@ -1,0 +1,10 @@
+for vcf in vcf_directory/*.vcf; do
+  bcftools index "$vcf"
+done
+
+
+mkdir -p consensus_fasta
+for vcf in vcf_directory/*.vcf; do
+  sample_name=$(basename "$vcf" .vcf)
+  bcftools consensus -f reference.fasta -R regions.bed "$vcf" > consensus_fasta/"$sample_name".fasta
+done
