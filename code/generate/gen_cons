@@ -1,3 +1,14 @@
+for vcf_file in "$vcf_directory"/*.vcf; do
+  # Get the base name of the VCF file (without the .vcf extension)
+  base_name=$(basename "$vcf_file" .vcf)
+
+  # Compress the VCF file to create a .gz file
+  bgzip -c "$vcf_file" > "$vcf_directory/$base_name.vcf.gz"
+
+  # Optionally index the compressed VCF file
+  tabix -p vcf "$vcf_directory/$base_name.vcf.gz"
+done
+
 for vcf in vcf_directory/*.vcf; do
   bcftools index "$vcf"
 done
